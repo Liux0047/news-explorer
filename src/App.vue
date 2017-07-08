@@ -1,26 +1,34 @@
 <template>
   <div id="app">
     <md-toolbar>
-      <h1 class="md-title">My Title</h1>
+      <h1 class="md-title">News Explorer</h1>
     </md-toolbar>
   
     <div class="main-content">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, rerum? Error sunt, aperiam dolores, atque expedita molestiae tenetur. Quis eveniet accusamus velit explicabo adipisci reiciendis modi eaque quas, officia excepturi.</p>
+      <app-news-list v-for="source in newsSources" :key="source" :source="source"></app-news-list>
     </div>
+  
   </div>
 </template>
 
 <script>
+import NewsList from './components/NewsList.vue';
+
 export default {
   name: 'app',
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      newsSources: ['techcrunch']
     }
+  },
+  components: {
+    'app-news-list': NewsList
   }
 }
 </script>
 
 <style lang="scss">
-
+.main-content {
+  padding: 16px;
+}
 </style>

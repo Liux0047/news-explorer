@@ -45,12 +45,19 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true
+    noInfo: true,
+    proxy: {
+      // proxy all requests starting with /api
+      '/api': {
+        target: 'http://localhost:3000/',
+        changeOrigin: true
+      }
+    }
   },
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
 }
 
 if (process.env.NODE_ENV === 'production') {

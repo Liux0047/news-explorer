@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
     res.json(dummyJson);
 });
 
-router.get('/real', function (req, res) {
+router.get('/techcrunch', function (req, res) {
     request({
         uri: endpoint,
         qs: {
