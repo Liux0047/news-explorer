@@ -11,7 +11,9 @@
     "start:prod": "npm run build && node app.js"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "express": "^4.15.3",
+    "jshint": "^2.9.5",
     "nodemon": "^1.11.0",
     "vue": "^2.3.3",
     "vue-material": "^0.7.4"
