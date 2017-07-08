@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="md-headline">Tech Crunch</h2>
+        <h2 class="md-headline">{{ sourceNames[source] }}</h2>
         <md-layout md-gutter>
             <app-news-card v-for="(article, index) in articles" :key="index" :article="article"></app-news-card>
         </md-layout>
@@ -10,11 +10,13 @@
 <script>
 import NewsCard from './NewsCard.vue';
 import axios from 'axios';
+import { NEWS_SOURCES } from '../../app.config';
 
 export default {
     data() {
         return {
-            articles: []
+            articles: [],
+            sourceNames: NEWS_SOURCES
         }
     },
     props: ['source'],

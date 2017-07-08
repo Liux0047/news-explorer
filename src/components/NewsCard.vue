@@ -1,5 +1,5 @@
 <template>
-  <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="25">
+  <md-layout md-flex-xsmall="100" md-flex-medium="100" md-flex-large="25">
     <md-card md-with-hover>
       <md-card-media>
         <img :src="article.urlToImage" alt="Picture">

@@ -10,11 +10,11 @@ router.get('/', function (req, res) {
     res.json(dummyJson);
 });
 
-router.get('/techcrunch', function (req, res) {
+router.get('/:source', function (req, res) {
     request({
         uri: endpoint,
         qs: {
-            source: 'techcrunch',
+            source: req.params.source,
             apiKey: API_KEY
         }
     }, function (error, response, body) {
