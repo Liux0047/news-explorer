@@ -2,15 +2,19 @@
     <div>
         <md-toolbar class="md-transparent">
             <h2 class="md-title" style="flex: 1">{{ sourceNames[source] }}</h2>
-            <md-button class="md-icon-button" md-expand-trigger>
-                <md-icon>keyboard_arrow_down</md-icon>
+            <md-button class="md-icon-button" @click="expanded = !expanded">
+                <md-icon :class="{'arrow-down': !expanded}">keyboard_arrow_up</md-icon>
             </md-button>
         </md-toolbar>
     
-        <md-spinner md-indeterminate v-if="!isDataReady"></md-spinner>
-        <md-layout md-gutter v-if="isDataReady">
-            <app-news-card v-for="(article, index) in TopMostArticles" :key="index" :article="article"></app-news-card>
-        </md-layout>
+        <transition name="slide">
+            <div v-if="expanded" class="content-container">
+                <md-spinner md-indeterminate v-if="!isDataReady"></md-spinner>
+                <md-layout md-gutter v-if="isDataReady">
+                    <app-news-card v-for="(article, index) in TopMostArticles" :key="index" :article="article"></app-news-card>
+                </md-layout>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -25,7 +29,8 @@ export default {
             articles: [],
             sourceNames: NEWS_SOURCES,
             viewALl: false,
-            isDataReady: false
+            isDataReady: false,
+            expanded: true
         }
     },
     props: ['source'],
@@ -36,6 +41,9 @@ export default {
         TopMostArticles() {
             return this.viewALl ? this.articles : this.articles.slice(0, 4);
         }
+    },
+    methods: {
+
     },
     created() {
         axios.get(`/api/` + this.source)
@@ -52,7 +60,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped="true">
+$animateDuration: 0.4s;
+
 .md-toolbar {
     padding: 0;
     border-bottom: solid 1px #eaecf0;
@@ -63,6 +73,44 @@ export default {
     }
     .md-button.md-icon-button {
         margin: 0;
+        .md-icon {
+            transition: transform $animateDuration ease;
+            &.arrow-down {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+}
+
+
+.slide-enter {
+    transform: scaleY(0);
+}
+.slide-enter-active {
+    transition: transform $animateDuration ease-in;
+    transform-origin: 50% 0 0; 
+}
+.slide-leave-active {
+    transition: transform $animateDuration ease-out;
+    transform: scaleY(0);
+    transform-origin: 50% 0 0;
+}
+
+@keyframes slideUp {
+    from {
+        max-height: 100%;
+    }
+    to {
+        max-height: 0;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        max-height: 0;
+    }
+    to {
+        max-height: 100%;
     }
 }
 </style>
