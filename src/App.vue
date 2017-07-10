@@ -4,7 +4,16 @@
       <md-button class="md-icon-button" @click="toggleLeftSidenav">
         <md-icon>menu</md-icon>
       </md-button>
-      <h1 class="md-title">News Explorer</h1>
+      <h1 class="md-title" style="flex: 1 1 0%">News Explorer</h1>
+      <md-menu>
+        <md-button class="md-icon-button" md-menu-trigger>
+          <md-icon>more_vert</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item>Sign In</md-menu-item>
+          <md-menu-item>Others</md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </md-toolbar>
   
     <md-sidenav class="md-left" ref="leftSidenav">

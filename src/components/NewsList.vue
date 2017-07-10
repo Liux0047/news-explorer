@@ -1,11 +1,12 @@
 <template>
     <div>
-        <md-toolbar class="md-transparent">
+        <div class="md-toolbar md-transparent" @click="expanded = !expanded">
+             <md-ink-ripple></md-ink-ripple>
             <h2 class="md-title" style="flex: 1">{{ sourceNames[source] }}</h2>
-            <md-button class="md-icon-button" @click="expanded = !expanded">
+            <button class="md-icon-button">
                 <md-icon :class="{'arrow-down': !expanded}">keyboard_arrow_up</md-icon>
-            </md-button>
-        </md-toolbar>
+            </button>
+        </div>
     
         <transition name="slide">
             <div v-if="expanded" class="content-container">
@@ -71,7 +72,7 @@ $animateDuration: 0.4s;
     .md-title:first-child {
         margin-left: 0;
     }
-    .md-button.md-icon-button {
+    .md-icon-button {
         margin: 0;
         .md-icon {
             transition: transform $animateDuration ease;
