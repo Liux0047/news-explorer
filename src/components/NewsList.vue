@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="md-toolbar md-transparent" @click="expanded = !expanded">
-             <md-ink-ripple></md-ink-ripple>
-            <h2 class="md-title" style="flex: 1">{{ sourceNames[source] }}</h2>
+            <md-ink-ripple></md-ink-ripple>
+            <h2 class="md-title" style="flex: 1">{{ entity }}</h2>
             <button class="md-icon-button">
                 <md-icon :class="{'arrow-down': !expanded}">keyboard_arrow_up</md-icon>
             </button>
@@ -12,7 +12,7 @@
             <div v-if="expanded" class="content-container">
                 <md-spinner md-indeterminate v-if="!isDataReady"></md-spinner>
                 <md-layout md-gutter v-if="isDataReady">
-                    <app-news-card v-for="(article, index) in TopMostArticles" :key="index" :article="article"></app-news-card>
+                    <app-news-card v-for="(article, index) in articles" :key="index" :article="article"></app-news-card>
                 </md-layout>
             </div>
         </transition>
@@ -22,41 +22,37 @@
 <script>
 import NewsCard from './NewsCard.vue';
 import axios from 'axios';
-import { NEWS_SOURCES } from '../../app.config';
 
 export default {
     data() {
         return {
             articles: [],
-            sourceNames: NEWS_SOURCES,
             viewALl: false,
             isDataReady: false,
             expanded: true
         }
     },
-    props: ['source'],
+    props: ['topic', 'entity'],
     components: {
         'app-news-card': NewsCard
-    },
-    computed: {
-        TopMostArticles() {
-            return this.viewALl ? this.articles : this.articles.slice(0, 4);
-        }
     },
     methods: {
 
     },
     created() {
-        axios.get(`/api/` + this.source)
-            .then(response => {
-                // JSON responses are automatically parsed.
-                console.log(response);
-                this.articles = response.data.articles;
-                this.isDataReady = true;
-            })
-            .catch(e => {
-                console.log(e);
-            });
+        axios.get('/api/entity', {
+            params: {
+                topic: this.topic,
+                entity: this.entity
+            }
+        }).then(response => {
+            // JSON responses are automatically parsed.
+            console.log(response);
+            this.articles = response.data.newsList;
+            this.isDataReady = true;
+        }).catch(e => {
+            console.error(e);
+        });
     }
 }
 </script>
@@ -87,10 +83,12 @@ $animateDuration: 0.4s;
 .slide-enter {
     transform: scaleY(0);
 }
+
 .slide-enter-active {
     transition: transform $animateDuration ease-in;
-    transform-origin: 50% 0 0; 
+    transform-origin: 50% 0 0;
 }
+
 .slide-leave-active {
     transition: transform $animateDuration ease-out;
     transform: scaleY(0);

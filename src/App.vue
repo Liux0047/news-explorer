@@ -22,34 +22,38 @@
           <h3 class="md-title">Sidenav content</h3>
         </div>
       </md-toolbar>
-      <app-nav-list></app-nav-list>
+      <app-nav-list :topics="topics"></app-nav-list>
   
     </md-sidenav>
   
     <div class="main-content">
-      <app-source-selector></app-source-selector>
-      <app-news-list v-for="source in newsSources" :key="source" :source="source"></app-news-list>
+      <span class="md-display-1">{{ selectedTopic.topic }}</span>
+      <app-entity-selector :entities="topicsMap[selectedTopic.topic]"></app-entity-selector>
+      <app-news-list v-for="entity in selectedTopic.entities" :key="entity" :topic="selectedTopic.topic" :entity="entity"></app-news-list>
     </div>
   
   </div>
 </template>
 
 <script>
-import SourceSelector from './components/SourceSelector.vue';
+import EntitySelector from './components/EntitySelector.vue';
 import NewsList from './components/NewsList.vue';
 import NavList from './components/NavList.vue';
 import { eventBus } from './main';
+import axios from 'axios';
 
 export default {
   name: 'app',
   data() {
     return {
-      newsSources: ['techcrunch']
+      selectedTopic: {},
+      topics: [],
+      topicsMap: {}
     }
   },
   components: {
     'app-news-list': NewsList,
-    'app-source-selector': SourceSelector,
+    'app-entity-selector': EntitySelector,
     'app-nav-list': NavList
   },
   methods: {
@@ -58,9 +62,31 @@ export default {
     }
   },
   created() {
-    eventBus.$on('sourcesUpdated', (data) => {
-      this.newsSources = data;
+    eventBus.$on('topicSelected', (data) => {
+      this.selectedTopic = data;
+      this.$refs.leftSidenav.close();
+    });
+
+    eventBus.$on('entitiesUpdated', (data) => {
+      this.selectedTopic.entities = data;
     })
+
+    // get the topics
+    axios.get('/api/topics')
+      .then(response => {
+        // JSON responses are automatically parsed.
+        this.topics = response.data;
+        for (let t of this.topics) {
+          this.topicsMap[t.topic] = t.entities;
+        }
+        this.selectedTopic = {
+          topic: this.topics[0].topic,
+          entities: this.topics[0].entities.slice(0, 3)
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      });
   }
 }
 </script>
