@@ -8,8 +8,8 @@
       <md-card-header>
         <div class="md-title">{{ article.title }}</div>
         <div class="md-subhead">
-           <md-icon class="md-icon-sm">access_time</md-icon> {{ formatTime(article.publishedAt) }} | {{ article.author }}
-           </div>
+          <md-icon class="md-icon-sm">access_time</md-icon> {{ formatTime(article.publishedAt) }} | {{ article.author }}
+        </div>
       </md-card-header>
   
       <md-card-content>
@@ -28,10 +28,14 @@ export default {
   props: ['article'],
   methods: {
     formatTime(dateTime) {
-      return Math.floor((new Date() - new Date(dateTime)) / 36e5) + 'h';
+      if (dateTime) {
+        return Math.floor((new Date() - new Date(dateTime)) / 36e5) + 'h';
+      } else {
+        return ' - ';
+      }
     },
     openUrl(url) {
-      window.open(url,"_blank");
+      window.open(url, "_blank");
     }
   }
 }
