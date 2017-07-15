@@ -27,7 +27,7 @@ export default {
         selectItem(topic, entity) {
             eventBus.$emit('topicSelected', {
                 topic,
-                entities: [entity]
+                entity
             });
         }
     }

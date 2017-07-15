@@ -8,7 +8,7 @@
       <md-card-header>
         <div class="md-title">{{ article.title }}</div>
         <div class="md-subhead">
-          <md-icon class="md-icon-sm">access_time</md-icon> {{ formatTime(article.publishedAt) }} | {{ article.author }}
+          <md-icon class="md-icon-sm">access_time</md-icon> {{ formatTime(article.publishedAt) }} | {{ article.source }}
         </div>
       </md-card-header>
   

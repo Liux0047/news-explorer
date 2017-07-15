@@ -2,7 +2,7 @@
     <div>
         <div class="md-toolbar md-transparent" @click="expanded = !expanded">
             <md-ink-ripple></md-ink-ripple>
-            <h2 class="md-title" style="flex: 1">{{ entity }}</h2>
+            <h2 class="md-title" style="flex: 1">{{ source }}</h2>
             <button class="md-icon-button">
                 <md-icon :class="{'arrow-down': !expanded}">keyboard_arrow_up</md-icon>
             </button>
@@ -10,8 +10,7 @@
     
         <transition name="slide">
             <div v-if="expanded" class="content-container">
-                <md-spinner md-indeterminate v-if="!isDataReady"></md-spinner>
-                <md-layout md-gutter v-if="isDataReady">
+                <md-layout md-gutter>
                     <app-news-card v-for="(article, index) in articles" :key="index" :article="article"></app-news-card>
                 </md-layout>
             </div>
@@ -26,13 +25,11 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            articles: [],
             viewALl: false,
-            isDataReady: false,
             expanded: true
         }
     },
-    props: ['topic', 'entity'],
+    props: ['articles', 'source'],
     components: {
         'app-news-card': NewsCard
     },
@@ -40,19 +37,7 @@ export default {
 
     },
     created() {
-        axios.get('/api/entity', {
-            params: {
-                topic: this.topic,
-                entity: this.entity
-            }
-        }).then(response => {
-            // JSON responses are automatically parsed.
-            console.log(response);
-            this.articles = response.data.newsList;
-            this.isDataReady = true;
-        }).catch(e => {
-            console.error(e);
-        });
+        
     }
 }
 </script>

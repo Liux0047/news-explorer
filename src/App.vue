@@ -27,16 +27,19 @@
     </md-sidenav>
   
     <div class="main-content">
-      <span class="md-display-1">{{ selectedTopic.topic }}</span>
-      <app-entity-selector :entities="topicsMap[selectedTopic.topic]"></app-entity-selector>
-      <app-news-list v-for="entity in selectedTopic.entities" :key="entity" :topic="selectedTopic.topic" :entity="entity"></app-news-list>
+      <md-spinner md-indeterminate v-if="!isDataReady"></md-spinner>
+      <div v-if="isDataReady">
+        <span class="md-display-1">{{ selectedTopic.entity }}</span>
+        <!-- <app-entity-selector :entities="topicsMap[selectedTopic.topic]"></app-entity-selector> -->
+        <app-news-list v-for="(articlesList, source) in articles" :key="source" :articles="articlesList" :source="source"></app-news-list>
+      </div>
     </div>
   
   </div>
 </template>
 
 <script>
-import EntitySelector from './components/EntitySelector.vue';
+// import EntitySelector from './components/EntitySelector.vue';
 import NewsList from './components/NewsList.vue';
 import NavList from './components/NavList.vue';
 import { eventBus } from './main';
@@ -48,41 +51,58 @@ export default {
     return {
       selectedTopic: {},
       topics: [],
-      topicsMap: {}
+      isDataReady: false,
+      articles: {}
     }
   },
   components: {
     'app-news-list': NewsList,
-    'app-entity-selector': EntitySelector,
+    // 'app-entity-selector': EntitySelector,
     'app-nav-list': NavList
   },
   methods: {
     toggleLeftSidenav() {
       this.$refs.leftSidenav.toggle();
-    }
+    },
+
+    getNewsData() {
+      this.isDataReady = false;
+      axios.get('/api/entity', {
+        params: {
+          topic: this.selectedTopic.topic,
+          entity: this.selectedTopic.entity
+        }
+      }).then(response => {
+        // JSON responses are automatically parsed.
+        this.articles = {};
+        for (let item of response.data.newsList) {
+          this.articles[item.source] = this.articles[item.source] || [];
+          this.articles[item.source].push(item);
+        }
+        this.isDataReady = true;
+      }).catch(e => {
+        console.error(e);
+      });
+    },
+
   },
   created() {
     eventBus.$on('topicSelected', (data) => {
       this.selectedTopic = data;
       this.$refs.leftSidenav.close();
+      this.getNewsData();
     });
-
-    eventBus.$on('entitiesUpdated', (data) => {
-      this.selectedTopic.entities = data;
-    })
 
     // get the topics
     axios.get('/api/topics')
       .then(response => {
         // JSON responses are automatically parsed.
         this.topics = response.data;
-        for (let t of this.topics) {
-          this.topicsMap[t.topic] = t.entities;
-        }
         this.selectedTopic = {
           topic: this.topics[0].topic,
-          entities: this.topics[0].entities.slice(0, 3)
+          entity: this.topics[0].entities[0]
         }
+        this.getNewsData();
       })
       .catch(e => {
         console.error(e);
