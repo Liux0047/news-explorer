@@ -4,32 +4,31 @@
       <md-button class="md-icon-button" @click="toggleLeftSidenav">
         <md-icon>menu</md-icon>
       </md-button>
-      <h1 class="md-title" style="flex: 1 1 0%">News Explorer</h1>
+      <h1 class="md-title" style="flex: 1 1 0%">Select Topics</h1>
       <md-menu>
         <md-button class="md-icon-button" md-menu-trigger>
           <md-icon>more_vert</md-icon>
         </md-button>
         <md-menu-content>
-          <md-menu-item>Sign In</md-menu-item>
+          <md-menu-item>TBD</md-menu-item>
           <md-menu-item>Others</md-menu-item>
         </md-menu-content>
       </md-menu>
     </md-toolbar>
   
     <md-sidenav class="md-left" ref="leftSidenav">
-      <md-toolbar class="md-large">
+      <md-toolbar>
         <div class="md-toolbar-container">
-          <h3 class="md-title">Sidenav content</h3>
+          <h3 class="md-title">Trendy Keywords</h3>
         </div>
       </md-toolbar>
       <app-nav-list :topics="topics"></app-nav-list>
-  
     </md-sidenav>
   
     <div class="main-content">
       <md-spinner md-indeterminate v-if="!isDataReady"></md-spinner>
       <div v-if="isDataReady">
-        <span class="md-display-1">{{ selectedTopic.entity }}</span>
+        <span class="md-body-1">Keyword: {{ selectedTopic.entity }}</span>
         <!-- <app-entity-selector :entities="topicsMap[selectedTopic.topic]"></app-entity-selector> -->
         <app-news-list v-for="(articlesList, source) in articles" :key="source" :articles="articlesList" :source="source"></app-news-list>
       </div>
