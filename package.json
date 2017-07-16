@@ -3,12 +3,14 @@
   "description": "Explore the trendy news from various sources",
   "version": "1.0.0",
   "author": "Xiao Liu",
-  "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "start": "nodemon app.js",
     "start:prod": "npm run build && node app.js"
+  },
+  "engines": {
+    "node": "6.11.1"
   },
   "dependencies": {
     "axios": "^0.16.2",
