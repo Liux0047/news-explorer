@@ -3,9 +3,9 @@
         <div class="md-toolbar md-transparent" @click="expanded = !expanded">
             <md-ink-ripple></md-ink-ripple>
             <h2 class="md-title" style="flex: 1">{{ source }}</h2>
-            <button class="md-icon-button">
+            <md-button class="md-icon-button">
                 <md-icon :class="{'arrow-down': !expanded}">keyboard_arrow_up</md-icon>
-            </button>
+            </md-button>
         </div>
     
         <transition name="slide">
