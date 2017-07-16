@@ -5,7 +5,7 @@
   "author": "Xiao Liu",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env webpack --progress --hide-modules",
+    "build": "webpack --progress --hide-modules",
     "start": "nodemon app.js",
     "start:prod": "npm run build && node app.js"
   },
@@ -19,7 +19,6 @@
     "nodemon": "^1.11.0",
     "request": "^2.81.0",
     "webpack": "^2.6.1",
-    "cross-env": "^3.0.0",
     "vue": "^2.3.3",
     "vue-material": "^0.7.4"
   },
@@ -32,6 +31,7 @@
     "node-sass": "^4.5.0",
     "sass-loader": "^5.0.1",
     "vue-loader": "^12.1.0",
+    "cross-env": "^3.0.0",
     "vue-template-compiler": "^2.3.3",
     "webpack-dev-server": "^2.4.5"
   }
