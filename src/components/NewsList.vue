@@ -67,8 +67,11 @@ $animateDuration: 0.4s;
         }
     }
     .md-avatar {
-        padding: 8px;
-        border-radius: 0;
+        width: 24px;
+        min-width: 24px;
+        height: 24px;
+        min-height: 24px;
+        margin-right: 8px;
     }
 }
 
