@@ -19,7 +19,9 @@
     <md-sidenav class="md-left" ref="leftSidenav">
       <md-toolbar>
         <div class="md-toolbar-container">
-          <h3 class="md-title">Trendy Keywords</h3>
+          <h3 class="md-title">
+            <i class="fa fa-line-chart" aria-hidden="true"></i> Trendy Keywords
+          </h3>
         </div>
       </md-toolbar>
       <app-nav-list :topics="topics"></app-nav-list>
@@ -99,7 +101,7 @@ export default {
         this.topics = response.data;
         this.selectedTopic = {
           topic: this.topics[0].topic,
-          entity: this.topics[0].entities[0]
+          entity: this.topics[0].entities[0].entity
         }
         this.getNewsData();
       })

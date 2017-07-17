@@ -1,7 +1,9 @@
 <template>
     <div>
         <div class="md-toolbar md-transparent" @click="expanded = !expanded">
-            <md-ink-ripple></md-ink-ripple>
+            <md-avatar>
+                <img :src="icons[source]" alt="Source">
+            </md-avatar>
             <h2 class="md-title" style="flex: 1">{{ source }}</h2>
             <md-button class="md-icon-button">
                 <md-icon :class="{'arrow-down': !expanded}">keyboard_arrow_up</md-icon>
@@ -21,12 +23,14 @@
 <script>
 import NewsCard from './NewsCard.vue';
 import axios from 'axios';
+import icons from '../icons';
 
 export default {
     data() {
         return {
             viewALl: false,
-            expanded: true
+            expanded: true,
+            icons: icons
         }
     },
     props: ['articles', 'source'],
@@ -37,7 +41,7 @@ export default {
 
     },
     created() {
-        
+
     }
 }
 </script>
@@ -61,6 +65,10 @@ $animateDuration: 0.4s;
                 transform: rotate(-180deg);
             }
         }
+    }
+    .md-avatar {
+        padding: 8px;
+        border-radius: 0;
     }
 }
 

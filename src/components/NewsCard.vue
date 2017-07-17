@@ -44,7 +44,7 @@ export default {
 <style lang="scss">
 $icon-sm-szie: 14px;
 .md-card {
-  margin: 0 0px 16px;
+  margin: 0 8px 16px;
   display: inline-block;
   vertical-align: top;
 
@@ -54,6 +54,10 @@ $icon-sm-szie: 14px;
     min-width: $icon-sm-szie;
     height: $icon-sm-szie;
     min-height: $icon-sm-szie;
+  }
+
+  @media (max-width: 1264px) {
+    margin: 0 0px 16px;
   }
 }
 </style>

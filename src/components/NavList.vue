@@ -8,8 +8,13 @@
                 <span>{{ topic.topic}} </span>
                 <md-list-expand>
                     <md-list>
-                        <md-list-item v-for="entity in topic.entities" :key="entity" @click="selectItem(topic.topic, entity)" class="md-inset">
-                            {{ entity }}
+                        <md-list-item v-for="(entity, i) in topic.entities" :key="i" @click="selectItem(topic.topic, entity.entity)" class="md-inset" :class="{'md-accent': entity.count >= 15, 
+                                                    'md-warn': entity.count < 15 && entity.count >= 10}">
+                            <div class="md-list-text-container">
+                                <span>{{ entity.entity }}</span>
+                                <p>{{ entity.count }} articles</p>
+                            </div>
+    
                         </md-list-item>
                     </md-list>
                 </md-list-expand>
