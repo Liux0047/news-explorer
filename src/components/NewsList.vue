@@ -72,6 +72,7 @@ $animateDuration: 0.4s;
         height: 24px;
         min-height: 24px;
         margin-right: 8px;
+        border-radius: 0;
     }
 }
 
